@@ -1,17 +1,28 @@
-# PRAW Private Messages (`praw.pro/pm`)
+# PRAW Project Management (`praw.pro/pm`)
 
-Authenticated 1:1 private messaging for PRAW, backed by the shared PRAW Supabase project.
+**PM = Project Management.** Private messages are one module inside this workbench.
+
+PRAW.pro is the AI-powered B2B business infrastructure platform. `/pm` is the operating surface for organizations, projects, tasks, opportunities, brands, products, agents, approvals — and inbox.
+
+## Docs
+
+- [DEVELOPMENT_PLAN.md](./DEVELOPMENT_PLAN.md) — phased roadmap and backlog
+- Canvas: PRAW.pro /pm Development Plan (in Cursor)
+
+## Current status
+
+| Module | Status |
+|---|---|
+| Auth against shared PRAW Supabase | Live in app |
+| Private messages (Inbox) | Implemented (schema + UI) |
+| Organizations / Projects / Tasks | Next |
+| Agent registry / Approvals | Later |
+| Commerce pilot | Later |
 
 ## Live path
 
-- Source of truth: this repo (`Carl-Walker-pm/pm`)
-- Served at: [https://praw.pro/pm/](https://praw.pro/pm/) via GitHub Pages on the `PRAW` site (`pm/` folder)
-
-## Stack
-
-- Static HTML/JS (same pattern as PurpleShire Commons chat)
-- Supabase Auth + RLS tables: `pm_threads`, `pm_participants`, `pm_messages`
-- Helpers: `open_pm_dm(other, body?)`, `mark_pm_read(thread_id)`
+- Source: this repo (`Carl-Walker-pm/pm`)
+- Served at: [https://praw.pro/pm/](https://praw.pro/pm/) via GitHub Pages on `Carl-Walker-pm/PRAW` (`pm/` folder)
 
 ## Local
 

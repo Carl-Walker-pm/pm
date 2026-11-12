@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Private Messages — PRAW</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      color-scheme: light dark;
+      --paper: #f4f2ee;
+      --ink: #151419;
+      --surface: #fbfaf7;
+      --soft: #dfdcd6;
+      --muted: #625f68;
+      --accent: #743c6f;
+      --acid: #c9f36b;
+      --line: rgba(21, 20, 25, 0.18);
+      --shadow: 0 18px 48px rgba(31, 25, 36, 0.1);
+      --display: "Barlow Condensed", Impact, sans-serif;
+      --serif: "Literata", Georgia, serif;
+      --rail: 18rem;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #111014;
+        --ink: #f3f0ec;
+        --surface: #1a181e;
+        --soft: #2c2930;
+        --muted: #b9b3bd;
+        --accent: #bd78b5;
+        --acid: #b9dd64;
+        --line: rgba(243, 240, 236, 0.16);
+        --shadow: 0 22px 56px rgba(0, 0, 0, 0.4);
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(1200px 600px at 12% -10%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, color-mix(in srgb, var(--acid) 14%, transparent), transparent 50%),
+        var(--paper);
+      color: var(--ink);
+      font-family: var(--serif);
+      line-height: 1.45;
+    }
+    a { color: var(--accent); }
+    button, input { font: inherit; color: inherit; }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+    .top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem clamp(1rem, 3vw, 2rem);
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--surface) 88%, transparent);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+    .brand {
+      font-family: var(--display);
+      font-size: clamp(1.75rem, 4vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      color: inherit;
+      line-height: 1;
+    }
+    .brand span { color: var(--accent); }
+    .top-meta { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+    .who { color: var(--muted); font-size: 0.95rem; }
+    .ghost {
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.35rem 0.85rem;
+      cursor: pointer;
+    }
+    .ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    .auth {
+      width: min(28rem, calc(100% - 2rem));
+      margin: clamp(2rem, 8vh, 5rem) auto;
+      padding: 1.75rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      animation: rise 480ms ease both;
+    }
+    .auth h1 {
+      font-family: var(--display);
+      font-size: 2.4rem;
+      margin: 0 0 0.35rem;
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+    .auth p.lead { margin: 0 0 1.25rem; color: var(--muted); }
+    label { display: block; font-size: 0.85rem; color: var(--muted); margin: 0.7rem 0 0.3rem; }
+    input[type="email"], input[type="password"], input[type="text"], input[type="search"] {
+      width: 100%;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 0.4rem;
+      padding: 0.65rem 0.75rem;
+    }
+    .primary {
+      margin-top: 1rem;
+      width: 100%;
+      border: none;
+      border-radius: 999px;
+      padding: 0.7rem 1rem;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--display);
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .primary:hover { filter: brightness(1.05); }
+    .status { min-height: 1.25rem; margin: 0.75rem 0 0; font-size: 0.92rem; color: var(--muted); }
+    .status[data-kind="error"] { color: #b42318; }
+    .status[data-kind="ok"] { color: #1f7a3f; }
+
+    .app {
+      display: grid;
+      grid-template-columns: var(--rail) 1fr;
+      min-height: calc(100vh - 4.2rem);
+    }
+    @media (max-width: 860px) {
+      .app { grid-template-columns: 1fr; }
+      .inbox { border-right: none; border-bottom: 1px solid var(--line); max-height: 40vh; }
+      .app.thread-open .inbox { display: none; }
+      .app:not(.thread-open) .thread { display: none; }
+    }
+
+    .inbox {
+      border-right: 1px solid var(--line);
+      background: color-mix(in srgb, var(--surface) 92%, transparent);
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .inbox-head {
+      padding: 1rem;
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      gap: 0.65rem;
+    }
+    .inbox-head h2 {
+      margin: 0;
+      font-family: var(--display);
+      font-size: 1.55rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .thread-list {
+      overflow: auto;
+      flex: 1;
+      min-height: 0;
+    }
+    .thread-item {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--line);
+      padding: 0.9rem 1rem;
+      cursor: pointer;
+      display: grid;
+      gap: 0.2rem;
+      animation: fade 360ms ease both;
+    }
+    .thread-item:hover, .thread-item.active {
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+    }
+    .thread-item .title {
+      font-family: var(--display);
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .thread-item .preview {
+      color: var(--muted);
+      font-size: 0.9rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .thread-item .when {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .thread-item.unread .title::after {
+      content: "";
+      display: inline-block;
+      width: 0.45rem;
+      height: 0.45rem;
+      margin-left: 0.4rem;
+      border-radius: 50%;
+      background: var(--accent);
+      vertical-align: middle;
+    }
+    .empty {
+      padding: 1.25rem 1rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .compose-new {
+      padding: 0.85rem 1rem 1rem;
+      border-top: 1px solid var(--line);
+      display: grid;
+      gap: 0.5rem;
+      background: var(--surface);
+    }
+    .compose-new .row { display: flex; gap: 0.5rem; }
+    .compose-new .primary { width: auto; margin: 0; padding: 0.55rem 0.95rem; }
+    .people {
+      max-height: 10rem;
+      overflow: auto;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      display: none;
+    }
+    .people.open { display: block; }
+    .person {
+      width: 100%;
+      text-align: left;
+      border: none;
+      background: transparent;
+      border-bottom: 1px solid var(--line);
+      padding: 0.55rem 0.7rem;
+      cursor: pointer;
+    }
+    .person:hover { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+    .person .handle { color: var(--muted); font-size: 0.8rem; }
+
+    .thread {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      background: var(--paper);
+    }
+    .thread-head {
+      padding: 0.95rem 1.1rem;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      background: color-mix(in srgb, var(--surface) 90%, transparent);
+    }
+    .thread-head h2 {
+      margin: 0;
+      font-family: var(--display);
+      font-size: 1.6rem;
+      letter-spacing: 0.02em;
+    }
+    .back {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.3rem 0.75rem;
+      cursor: pointer;
+    }
+    @media (max-width: 860px) { .back { display: inline-flex; } }
+
+    .messages {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      padding: 1.1rem clamp(1rem, 3vw, 1.75rem);
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .msg {
+      max-width: min(36rem, 92%);
+      animation: rise 280ms ease both;
+    }
+    .msg.mine { align-self: flex-end; }
+    .msg .meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+    .msg .body {
+      padding: 0.7rem 0.85rem;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .msg.mine .body {
+      background: color-mix(in srgb, var(--accent) 14%, var(--surface));
+      border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
+    }
+
+    .composer {
+      display: flex;
+      gap: 0.55rem;
+      padding: 0.85rem clamp(1rem, 3vw, 1.5rem) 1.1rem;
+      border-top: 1px solid var(--line);
+      background: var(--surface);
+    }
+    .composer input { flex: 1; }
+    .composer .primary { width: auto; margin: 0; padding: 0.55rem 1.1rem; }
+
+    .placeholder {
+      margin: auto;
+      text-align: center;
+      color: var(--muted);
+      padding: 2rem;
+      max-width: 22rem;
+    }
+    .placeholder strong {
+      display: block;
+      font-family: var(--display);
+      font-size: 1.8rem;
+      color: var(--ink);
+      letter-spacing: 0.03em;
+      margin-bottom: 0.35rem;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes fade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="https://praw.pro/">PRAW<span>.</span></a>
+    <div class="top-meta">
+      <span class="who" id="user-label"></span>
+      <button type="button" class="ghost" id="signout-btn" hidden>Sign out</button>
+    </div>
+  </header>
+
+  <section class="auth" id="auth-panel" hidden>
+    <h1>Private messages</h1>
+    <p class="lead">Sign in with your PRAW account to open your inbox.</p>
+    <form id="login-form">
+      <label for="login-email">Email</label>
+      <input id="login-email" type="email" autocomplete="username" required />
+      <label for="login-password">Password</label>
+      <input id="login-password" type="password" autocomplete="current-password" required minlength="6" />
+      <button class="primary" type="submit">Sign in</button>
+    </form>
+    <p class="status" id="auth-status" role="status"></p>
+  </section>
+
+  <div class="app" id="app-panel" hidden>
+    <aside class="inbox" aria-label="Inbox">
+      <div class="inbox-head">
+        <h2>Inbox</h2>
+        <p class="status" id="status" role="status"></p>
+      </div>
+      <div class="thread-list" id="thread-list"></div>
+      <div class="compose-new">
+        <label for="people-search">New message</label>
+        <input id="people-search" type="search" placeholder="Search people by name or handle" autocomplete="off" />
+        <div class="people" id="people" role="listbox"></div>
+        <div class="row">
+          <input id="first-body" type="text" maxlength="8000" placeholder="First message (optional)" />
+          <button class="primary" type="button" id="start-dm" disabled>Open</button>
+        </div>
+      </div>
+    </aside>
+
+    <section class="thread" aria-label="Conversation">
+      <div class="thread-head" id="thread-head" hidden>
+        <button type="button" class="back" id="back-btn">Inbox</button>
+        <h2 id="thread-title">Conversation</h2>
+      </div>
+      <div class="messages" id="messages">
+        <div class="placeholder" id="empty-thread">
+          <strong>Private messages</strong>
+          Choose a conversation or start a new one.
+        </div>
+      </div>
+      <form class="composer" id="composer" hidden>
+        <input id="compose-input" type="text" maxlength="8000" placeholder="Write a private message" autocomplete="off" required />
+        <button class="primary" type="submit">Send</button>
+      </form>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="./config.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

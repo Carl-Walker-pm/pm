@@ -1,0 +1,30 @@
+"""Shared dimensions for the OpenCAD house (millimeters)."""
+
+# Main body
+BODY_WIDTH = 100.0
+BODY_DEPTH = 80.0
+BODY_HEIGHT = 60.0
+
+# Gable roof
+ROOF_RISE = 35.0
+ROOF_OVERHANG = 6.0
+ROOF_RIDGE_WIDTH = 0.5
+ROOF_BODY_OVERLAP = 2.0  # sink eaves into body for a clean boolean
+
+# Front openings (cut through the +Y face)
+DOOR_WIDTH = 24.0
+DOOR_HEIGHT = 40.0
+DOOR_CUT_DEPTH = 30.0
+
+WINDOW_WIDTH = 18.0
+WINDOW_HEIGHT = 18.0
+WINDOW_CUT_DEPTH = 30.0
+WINDOW_SILL_HEIGHT = 29.0
+WINDOW_OFFSET_X = 28.0
+
+# Chimney
+CHIMNEY_SIZE = 12.0
+CHIMNEY_HEIGHT = 28.0
+CHIMNEY_OFFSET_X = 28.0
+CHIMNEY_OFFSET_Y = -12.0
+CHIMNEY_BASE_Z = BODY_HEIGHT + 10.0

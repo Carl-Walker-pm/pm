@@ -1,0 +1,1380 @@
+{
+  "nodes": {
+    "root": {
+      "id": "root",
+      "name": "Root",
+      "operation": "seed",
+      "parameters": {},
+      "typed_parameters": {},
+      "parameter_bindings": [],
+      "sketch_id": null,
+      "parent_id": null,
+      "tool_refs": [],
+      "depends_on": [],
+      "shape_id": null,
+      "status": "built",
+      "suppressed": false,
+      "mate_id": null,
+      "is_assembly_mate": false
+    },
+    "feat-0001": {
+      "id": "feat-0001",
+      "name": "Body blank",
+      "operation": "create_box",
+      "parameters": {
+        "length": 100.0,
+        "width": 80.0,
+        "height": 60.0
+      },
+      "typed_parameters": {},
+      "parameter_bindings": [],
+      "sketch_id": null,
+      "parent_id": null,
+      "tool_refs": [],
+      "depends_on": [],
+      "shape_id": "1c803d50-f566-41fc-83a8-a59f6196dc31",
+      "status": "built",
+      "suppressed": false,
+      "mate_id": null,
+      "is_assembly_mate": false
+    },
+    "feat-0002": {
+      "id": "feat-0002",
+      "name": "Raise body onto ground plane",
+      "operation": "translate",
+      "parameters": {
+        "shape_id": "feat-0001",
+        "offset": [
+          0.0,
+          0.0,
+          30.0
+        ]
+      },
+      "typed_parameters": {},
+      "parameter_bindings": [],
+      "sketch_id": null,
+      "parent_id": "feat-0001",
+      "tool_refs": [],
+      "depends_on": [
+        "feat-0001"
+      ],
+      "shape_id": "dd2de29c-fc0d-43b0-89eb-8694cb4a69b3",
+      "status": "built",
+      "suppressed": false,
+      "mate_id": null,
+      "is_assembly_mate": false
+    },
+    "sketch-0001": {
+      "id": "sketch-0001",
+      "name": "Eaves profile",
+      "operation": "create_sketch",
+      "parameters": {
+        "plane": "XY",
+        "origin": [
+          0.0,
+          0.0,
+          58.0
+        ],
+        "segments": [
+          {
+            "type": "line",
+            "start": [
+              -56.0,
+              -46.0
+            ],
+            "end": [
+              56.0,
+              -46.0
+            ],
+            "center": null,
+            "radius": null,
+            "subtract": false
+          },
+          {
+            "type": "line",
+            "start": [
+              56.0,
+              -46.0
+            ],
+            "end": [
+              56.0,
+              46.0
+            ],
+            "center": null,
+            "radius": null,
+            "subtract": false
+          },
+          {
+            "type": "line",
+            "start": [
+              56.0,
+              46.0
+            ],
+            "end": [
+              -56.0,
+              46.0
+            ],
+            "center": null,
+            "radius": null,
+            "subtract": false
+          },
+          {
+            "type": "line",
+            "start": [
+              -56.0,
+              46.0
+            ],
+            "end": [
+              -56.0,
+              -46.0
+            ],
+            "center": null,
+            "radius": null,
+            "subtract": false
+          }
+        ],
+        "entities": {
+          "line-0001": {
+            "id": "line-0001",
+            "type": "line",
+            "start": [
+              -56.0,
+              -46.0
+            ],
+            "end": [
+              56.0,
+              -46.0
+            ]
+          },
+          "line-0002": {
+            "id": "line-0002",
+            "type": "line",
+            "start": [
+              56.0,
+              -46.0
+            ],
+            "end": [
+              56.0,
+              46.0
+            ]
+          },
+          "line-0003": {
+            "id": "line-0003",
+            "type": "line",
+            "start": [
+              56.0,
+              46.0
+            ],
+            "end": [
+              -56.0,
+              46.0
+            ]
+          },
+          "line-0004": {
+            "id": "line-0004",
+            "type": "line",
+            "start": [
+              -56.0,
+              46.0
+            ],
+            "end": [
+              -56.0,
+              -46.0
+            ]
+          }
+        },
+        "profile_order": [
+          "line-0001",
+          "line-0002",
+          "line-0003",
+          "line-0004"
+        ],
+        "constraints": []
+      },
+      "typed_parameters": {},
+      "parameter_bindings": [],
+      "sketch_id": "sketch-0001",
+      "parent_id": null,
+      "tool_refs": [],
+      "depends_on": [],
+      "shape_id": "96684457-713d-410c-8670-4b8a0ed077f7",
+      "status": "built",
+      "suppressed": false,
+      "mate_id": null,
+      "is_assembly_mate": false
+    },
+    "sketch-0002": {
+      "id": "sketch-0002",
+      "name": "Ridge profile",
+      "operation": "create_sketch",
+      "parameters": {
+        "plane": "XY",
+        "origin": [
+          0.0,
+          0.0,
+          95.0
+        ],
+        "segments": [
+          {
+            "type": "line",
+            "start": [
+              -0.25,
+              -46.0
+            ],
+            "end": [
+              0.25,
+              -46.0
+            ],
+            "center": null,
+            "radius": null,
+            "subtract": false
+          },
+          {
+            "type": "line",
+            "start": [
+              0.25,
+              -46.0
+            ],
+            "end": [
+              0.25,
+              46.0
+            ],
+            "center": null,
+            "radius": null,
+            "subtract": false
+          },
+          {
+            "type": "line",
+            "start": [
+              0.25,
+              46.0
+            ],
+            "end": [
+              -0.25,
+              46.0
+            ],
+            "center": null,
+            "radius": null,
+            "subtract": false
+          },
+          {
+            "type": "line",
+            "start": [
+              -0.25,
+              46.0
+            ],
+            "end": [
+              -0.25,
+              -46.0
+            ],
+            "center": null,
+            "radius": null,
+            "subtract": false
+          }
+        ],
+        "entities": {
+          "line-0001": {
+            "id": "line-0001",
+            "type": "line",
+            "start": [
+              -0.25,
+              -46.0
+            ],
+            "end": [
+              0.25,
+              -46.0
+            ]
+          },
+          "line-0002": {
+            "id": "line-0002",
+            "type": "line",
+            "start": [
+              0.25,
+              -46.0
+            ],
+            "end": [
+              0.25,
+              46.0
+            ]
+          },
+          "line-0003": {
+            "id": "line-0003",
+            "type": "line",
+            "start": [
+              0.25,
+              46.0
+            ],
+            "end": [
+              -0.25,
+              46.0
+            ]
+          },
+          "line-0004": {
+            "id": "line-0004",
+            "type": "line",
+            "start": [
+              -0.25,
+              46.0
+            ],
+            "end": [
+              -0.25,
+              -46.0
+            ]
+          }
+        },
+        "profile_order": [
+          "line-0001",
+          "line-0002",
+          "line-0003",
+          "line-0004"
+        ],
+        "constraints": []
+      },
+      "typed_parameters": {},
+      "parameter_bindings": [],
+      "sketch_id": "sketch-0002",
+      "parent_id": null,
+      "tool_refs": [],
+      "depends_on": [],
+      "shape_id": "5936f9bd-63ca-4bd1-9157-cb6665b2a9eb",
+      "status": "built",
+      "suppressed": false,
+      "mate_id": null,
+      "is_assembly_mate": false
+    },
+    "feat-0003": {
+      "id": "feat-0003",
+      "name": "Gable roof",
+      "operation": "loft",
+      "parameters": {
+        "profile_ids": [
+          "sketch-0001",
+          "sketch-0002"
+        ],
+        "solid": true,
+        "ruled": true
+      },
+      "typed_parameters": {},
+      "parameter_bindings": [],
+      "sketch_id": null,
+      "parent_id": "sketch-0001",
+      "tool_refs": [
+        "sketch-0002"
+      ],
+      "depends_on": [
+        "sketch-0001",
+        "sketch-0002"
+      ],
+      "shape_id": "13da3aff-7aca-48ce-9e47-a31a165e5d11",
+      "status": "built",
+      "suppressed": false,
+      "mate_id": null,
+      "is_assembly_mate": false
+    },
+    "feat-0004": {
+      "id": "feat-0004",
+      "name": "Attach roof",
+      "operation": "boolean_union",
+      "parameters": {
+        "shape_a_id": "feat-0002",
+        "shape_b_id": "feat-0003"
+      },
+      "typed_parameters": {},
+      "parameter_bindings": [],
+      "sketch_id": null,
+      "parent_id": "feat-0002",
+      "tool_refs": [
+        "feat-0003"
+      ],
+      "depends_on": [
+        "feat-0002",
+        "feat-0003"
+      ],
+      "shape_id": "020b2609-18da-4c24-8503-dce9b1d5fc23",
+      "status": "built",
+      "suppressed": false,
+      "mate_id": null,
+      "is_assembly_mate": false
+    },
+    "feat-0005": {
+      "id": "feat-0005",
+      "name": "Door blank",
+      "operation": "create_box",
+      "parameters": {
+        "length": 24.0,
+        "width": 30.0,
+        "height": 40.0
+      },
+      "typed_parameters": {},
+      "parameter_bindings": [],
+      "sketch_id": null,
+      "parent_id": null,
+      "tool_refs": [],
+      "depends_on": [],
+      "shape_id": "cacb84c2-4250-481a-b473-3f90bc54726c",
+      "status": "built",
+      "suppressed": false,
+      "mate_id": null,
+      "is_assembly_mate": false
+    },
+    "feat-0006": {
+      "id": "feat-0006",
+      "name": "Place door",
+      "operation": "translate",
+      "parameters": {
+        "shape_id": "feat-0005",
+        "offset": [
+          0.0,
+          40.0,
+          20.0
+        ]
+      },
+      "typed_parameters": {},
+      "parameter_bindings": [],
+      "sketch_id": null,
+      "parent_id": "feat-0005",
+      "tool_refs": [],
+      "depends_on": [
+        "feat-0005"
+      ],
+      "shape_id": "93756743-c594-4a6d-bf52-2895e88abe52",
+      "status": "built",
+      "suppressed": false,
+      "mate_id": null,
+      "is_assembly_mate": false
+    },
+    "feat-0007": {
+      "id": "feat-0007",
+      "name": "Door opening",
+      "operation": "boolean_cut",
+      "parameters": {
+        "shape_a_id": "feat-0004",
+        "shape_b_id": "feat-0006"
+      },
+      "typed_parameters": {},
+      "parameter_bindings": [],
+      "sketch_id": null,
+      "parent_id": "feat-0004",
+      "tool_refs": [
+        "feat-0006"
+      ],
+      "depends_on": [
+        "feat-0004",
+        "feat-0006"
+      ],
+      "shape_id": "9739c076-0ba5-4556-b5ae-be1f937e919f",
+      "status": "built",
+      "suppressed": false,
+      "mate_id": null,
+      "is_assembly_mate": false
+    },
+    "feat-0008": {
+      "id": "feat-0008",
+      "name": "Window blank left",
+      "operation": "create_box",
+      "parameters": {
+        "length": 18.0,
+        "width": 30.0,
+        "height": 18.0
+      },
+      "typed_parameters": {},
+      "parameter_bindings": [],
+      "sketch_id": null,
+      "parent_id": null,
+      "tool_refs": [],
+      "depends_on": [],
+      "shape_id": "2b17636f-9921-433c-9ecb-44d8be2d69f3",
+      "status": "built",
+      "suppressed": false,
+      "mate_id": null,
+      "is_assembly_mate": false
+    },
+    "feat-0009": {
+      "id": "feat-0009",
+      "name": "Place window left",
+      "operation": "translate",
+      "parameters": {
+        "shape_id": "feat-0008",
+        "offset": [
+          -28.0,
+          40.0,
+          38.0
+        ]
+      },
+      "typed_parameters": {},
+      "parameter_bindings": [],
+      "sketch_id": null,
+      "parent_id": "feat-0008",
+      "tool_refs": [],
+      "depends_on": [
+        "feat-0008"
+      ],
+      "shape_id": "677a8076-701d-4a75-8bc4-4fca3a4afc1a",
+      "status": "built",
+      "suppressed": false,
+      "mate_id": null,
+      "is_assembly_mate": false
+    },
+    "feat-0010": {
+      "id": "feat-0010",
+      "name": "Window opening left",
+      "operation": "boolean_cut",
+      "parameters": {
+        "shape_a_id": "feat-0007",
+        "shape_b_id": "feat-0009"
+      },
+      "typed_parameters": {},
+      "parameter_bindings": [],
+      "sketch_id": null,
+      "parent_id": "feat-0007",
+      "tool_refs": [
+        "feat-0009"
+      ],
+      "depends_on": [
+        "feat-0007",
+        "feat-0009"
+      ],
+      "shape_id": "c5ca613b-7b25-4dd8-b479-cd595a6937d5",
+      "status": "built",
+      "suppressed": false,
+      "mate_id": null,
+      "is_assembly_mate": false
+    },
+    "feat-0011": {
+      "id": "feat-0011",
+      "name": "Window blank right",
+      "operation": "create_box",
+      "parameters": {
+        "length": 18.0,
+        "width": 30.0,
+        "height": 18.0
+      },
+      "typed_parameters": {},
+      "parameter_bindings": [],
+      "sketch_id": null,
+      "parent_id": null,
+      "tool_refs": [],
+      "depends_on": [],
+      "shape_id": "2c38ca2a-dbe9-4d3a-ade4-acb5fd62e91e",
+      "status": "built",
+      "suppressed": false,
+      "mate_id": null,
+      "is_assembly_mate": false
+    },
+    "feat-0012": {
+      "id": "feat-0012",
+      "name": "Place window right",
+      "operation": "translate",
+      "parameters": {
+        "shape_id": "feat-0011",
+        "offset": [
+          28.0,
+          40.0,
+          38.0
+        ]
+      },
+      "typed_parameters": {},
+      "parameter_bindings": [],
+      "sketch_id": null,
+      "parent_id": "feat-0011",
+      "tool_refs": [],
+      "depends_on": [
+        "feat-0011"
+      ],
+      "shape_id": "eb2d55e8-3149-4bb2-a086-2811f53f8ab8",
+      "status": "built",
+      "suppressed": false,
+      "mate_id": null,
+      "is_assembly_mate": false
+    },
+    "feat-0013": {
+      "id": "feat-0013",
+      "name": "Window opening right",
+      "operation": "boolean_cut",
+      "parameters": {
+        "shape_a_id": "feat-0010",
+        "shape_b_id": "feat-0012"
+      },
+      "typed_parameters": {},
+      "parameter_bindings": [],
+      "sketch_id": null,
+      "parent_id": "feat-0010",
+      "tool_refs": [
+        "feat-0012"
+      ],
+      "depends_on": [
+        "feat-0010",
+        "feat-0012"
+      ],
+      "shape_id": "ad6c8777-b595-4aad-ac1c-d98567728e8f",
+      "status": "built",
+      "suppressed": false,
+      "mate_id": null,
+      "is_assembly_mate": false
+    },
+    "feat-0014": {
+      "id": "feat-0014",
+      "name": "Chimney blank",
+      "operation": "create_box",
+      "parameters": {
+        "length": 12.0,
+        "width": 12.0,
+        "height": 28.0
+      },
+      "typed_parameters": {},
+      "parameter_bindings": [],
+      "sketch_id": null,
+      "parent_id": null,
+      "tool_refs": [],
+      "depends_on": [],
+      "shape_id": "2b6c9e96-3752-474e-8744-caf6fcb0fd00",
+      "status": "built",
+      "suppressed": false,
+      "mate_id": null,
+      "is_assembly_mate": false
+    },
+    "feat-0015": {
+      "id": "feat-0015",
+      "name": "Place chimney",
+      "operation": "translate",
+      "parameters": {
+        "shape_id": "feat-0014",
+        "offset": [
+          28.0,
+          -12.0,
+          84.0
+        ]
+      },
+      "typed_parameters": {},
+      "parameter_bindings": [],
+      "sketch_id": null,
+      "parent_id": "feat-0014",
+      "tool_refs": [],
+      "depends_on": [
+        "feat-0014"
+      ],
+      "shape_id": "5d475fbc-06cf-4939-bd54-c182b4a5f76e",
+      "status": "built",
+      "suppressed": false,
+      "mate_id": null,
+      "is_assembly_mate": false
+    },
+    "feat-0016": {
+      "id": "feat-0016",
+      "name": "Attach chimney",
+      "operation": "boolean_union",
+      "parameters": {
+        "shape_a_id": "feat-0013",
+        "shape_b_id": "feat-0015"
+      },
+      "typed_parameters": {},
+      "parameter_bindings": [],
+      "sketch_id": null,
+      "parent_id": "feat-0013",
+      "tool_refs": [
+        "feat-0015"
+      ],
+      "depends_on": [
+        "feat-0013",
+        "feat-0015"
+      ],
+      "shape_id": "66cc3640-b53c-4206-946a-4d15d9e1cd19",
+      "status": "built",
+      "suppressed": false,
+      "mate_id": null,
+      "is_assembly_mate": false
+    }
+  },
+  "root_id": "root",
+  "active_branch": "main",
+  "branch_snapshots": {
+    "main": {
+      "root": {
+        "id": "root",
+        "name": "Root",
+        "operation": "seed",
+        "parameters": {},
+        "typed_parameters": {},
+        "parameter_bindings": [],
+        "sketch_id": null,
+        "parent_id": null,
+        "tool_refs": [],
+        "depends_on": [],
+        "shape_id": null,
+        "status": "built",
+        "suppressed": false,
+        "mate_id": null,
+        "is_assembly_mate": false
+      },
+      "feat-0001": {
+        "id": "feat-0001",
+        "name": "Body blank",
+        "operation": "create_box",
+        "parameters": {
+          "length": 100.0,
+          "width": 80.0,
+          "height": 60.0
+        },
+        "typed_parameters": {},
+        "parameter_bindings": [],
+        "sketch_id": null,
+        "parent_id": null,
+        "tool_refs": [],
+        "depends_on": [],
+        "shape_id": "1c803d50-f566-41fc-83a8-a59f6196dc31",
+        "status": "built",
+        "suppressed": false,
+        "mate_id": null,
+        "is_assembly_mate": false
+      },
+      "feat-0002": {
+        "id": "feat-0002",
+        "name": "Raise body onto ground plane",
+        "operation": "translate",
+        "parameters": {
+          "shape_id": "feat-0001",
+          "offset": [
+            0.0,
+            0.0,
+            30.0
+          ]
+        },
+        "typed_parameters": {},
+        "parameter_bindings": [],
+        "sketch_id": null,
+        "parent_id": "feat-0001",
+        "tool_refs": [],
+        "depends_on": [
+          "feat-0001"
+        ],
+        "shape_id": "dd2de29c-fc0d-43b0-89eb-8694cb4a69b3",
+        "status": "built",
+        "suppressed": false,
+        "mate_id": null,
+        "is_assembly_mate": false
+      },
+      "sketch-0001": {
+        "id": "sketch-0001",
+        "name": "Eaves profile",
+        "operation": "create_sketch",
+        "parameters": {
+          "plane": "XY",
+          "origin": [
+            0.0,
+            0.0,
+            58.0
+          ],
+          "segments": [
+            {
+              "type": "line",
+              "start": [
+                -56.0,
+                -46.0
+              ],
+              "end": [
+                56.0,
+                -46.0
+              ],
+              "center": null,
+              "radius": null,
+              "subtract": false
+            },
+            {
+              "type": "line",
+              "start": [
+                56.0,
+                -46.0
+              ],
+              "end": [
+                56.0,
+                46.0
+              ],
+              "center": null,
+              "radius": null,
+              "subtract": false
+            },
+            {
+              "type": "line",
+              "start": [
+                56.0,
+                46.0
+              ],
+              "end": [
+                -56.0,
+                46.0
+              ],
+              "center": null,
+              "radius": null,
+              "subtract": false
+            },
+            {
+              "type": "line",
+              "start": [
+                -56.0,
+                46.0
+              ],
+              "end": [
+                -56.0,
+                -46.0
+              ],
+              "center": null,
+              "radius": null,
+              "subtract": false
+            }
+          ],
+          "entities": {
+            "line-0001": {
+              "id": "line-0001",
+              "type": "line",
+              "start": [
+                -56.0,
+                -46.0
+              ],
+              "end": [
+                56.0,
+                -46.0
+              ]
+            },
+            "line-0002": {
+              "id": "line-0002",
+              "type": "line",
+              "start": [
+                56.0,
+                -46.0
+              ],
+              "end": [
+                56.0,
+                46.0
+              ]
+            },
+            "line-0003": {
+              "id": "line-0003",
+              "type": "line",
+              "start": [
+                56.0,
+                46.0
+              ],
+              "end": [
+                -56.0,
+                46.0
+              ]
+            },
+            "line-0004": {
+              "id": "line-0004",
+              "type": "line",
+              "start": [
+                -56.0,
+                46.0
+              ],
+              "end": [
+                -56.0,
+                -46.0
+              ]
+            }
+          },
+          "profile_order": [
+            "line-0001",
+            "line-0002",
+            "line-0003",
+            "line-0004"
+          ],
+          "constraints": []
+        },
+        "typed_parameters": {},
+        "parameter_bindings": [],
+        "sketch_id": "sketch-0001",
+        "parent_id": null,
+        "tool_refs": [],
+        "depends_on": [],
+        "shape_id": "96684457-713d-410c-8670-4b8a0ed077f7",
+        "status": "built",
+        "suppressed": false,
+        "mate_id": null,
+        "is_assembly_mate": false
+      },
+      "sketch-0002": {
+        "id": "sketch-0002",
+        "name": "Ridge profile",
+        "operation": "create_sketch",
+        "parameters": {
+          "plane": "XY",
+          "origin": [
+            0.0,
+            0.0,
+            95.0
+          ],
+          "segments": [
+            {
+              "type": "line",
+              "start": [
+                -0.25,
+                -46.0
+              ],
+              "end": [
+                0.25,
+                -46.0
+              ],
+              "center": null,
+              "radius": null,
+              "subtract": false
+            },
+            {
+              "type": "line",
+              "start": [
+                0.25,
+                -46.0
+              ],
+              "end": [
+                0.25,
+                46.0
+              ],
+              "center": null,
+              "radius": null,
+              "subtract": false
+            },
+            {
+              "type": "line",
+              "start": [
+                0.25,
+                46.0
+              ],
+              "end": [
+                -0.25,
+                46.0
+              ],
+              "center": null,
+              "radius": null,
+              "subtract": false
+            },
+            {
+              "type": "line",
+              "start": [
+                -0.25,
+                46.0
+              ],
+              "end": [
+                -0.25,
+                -46.0
+              ],
+              "center": null,
+              "radius": null,
+              "subtract": false
+            }
+          ],
+          "entities": {
+            "line-0001": {
+              "id": "line-0001",
+              "type": "line",
+              "start": [
+                -0.25,
+                -46.0
+              ],
+              "end": [
+                0.25,
+                -46.0
+              ]
+            },
+            "line-0002": {
+              "id": "line-0002",
+              "type": "line",
+              "start": [
+                0.25,
+                -46.0
+              ],
+              "end": [
+                0.25,
+                46.0
+              ]
+            },
+            "line-0003": {
+              "id": "line-0003",
+              "type": "line",
+              "start": [
+                0.25,
+                46.0
+              ],
+              "end": [
+                -0.25,
+                46.0
+              ]
+            },
+            "line-0004": {
+              "id": "line-0004",
+              "type": "line",
+              "start": [
+                -0.25,
+                46.0
+              ],
+              "end": [
+                -0.25,
+                -46.0
+              ]
+            }
+          },
+          "profile_order": [
+            "line-0001",
+            "line-0002",
+            "line-0003",
+            "line-0004"
+          ],
+          "constraints": []
+        },
+        "typed_parameters": {},
+        "parameter_bindings": [],
+        "sketch_id": "sketch-0002",
+        "parent_id": null,
+        "tool_refs": [],
+        "depends_on": [],
+        "shape_id": "5936f9bd-63ca-4bd1-9157-cb6665b2a9eb",
+        "status": "built",
+        "suppressed": false,
+        "mate_id": null,
+        "is_assembly_mate": false
+      },
+      "feat-0003": {
+        "id": "feat-0003",
+        "name": "Gable roof",
+        "operation": "loft",
+        "parameters": {
+          "profile_ids": [
+            "sketch-0001",
+            "sketch-0002"
+          ],
+          "solid": true,
+          "ruled": true
+        },
+        "typed_parameters": {},
+        "parameter_bindings": [],
+        "sketch_id": null,
+        "parent_id": "sketch-0001",
+        "tool_refs": [
+          "sketch-0002"
+        ],
+        "depends_on": [
+          "sketch-0001",
+          "sketch-0002"
+        ],
+        "shape_id": "13da3aff-7aca-48ce-9e47-a31a165e5d11",
+        "status": "built",
+        "suppressed": false,
+        "mate_id": null,
+        "is_assembly_mate": false
+      },
+      "feat-0004": {
+        "id": "feat-0004",
+        "name": "Attach roof",
+        "operation": "boolean_union",
+        "parameters": {
+          "shape_a_id": "feat-0002",
+          "shape_b_id": "feat-0003"
+        },
+        "typed_parameters": {},
+        "parameter_bindings": [],
+        "sketch_id": null,
+        "parent_id": "feat-0002",
+        "tool_refs": [
+          "feat-0003"
+        ],
+        "depends_on": [
+          "feat-0002",
+          "feat-0003"
+        ],
+        "shape_id": "020b2609-18da-4c24-8503-dce9b1d5fc23",
+        "status": "built",
+        "suppressed": false,
+        "mate_id": null,
+        "is_assembly_mate": false
+      },
+      "feat-0005": {
+        "id": "feat-0005",
+        "name": "Door blank",
+        "operation": "create_box",
+        "parameters": {
+          "length": 24.0,
+          "width": 30.0,
+          "height": 40.0
+        },
+        "typed_parameters": {},
+        "parameter_bindings": [],
+        "sketch_id": null,
+        "parent_id": null,
+        "tool_refs": [],
+        "depends_on": [],
+        "shape_id": "cacb84c2-4250-481a-b473-3f90bc54726c",
+        "status": "built",
+        "suppressed": false,
+        "mate_id": null,
+        "is_assembly_mate": false
+      },
+      "feat-0006": {
+        "id": "feat-0006",
+        "name": "Place door",
+        "operation": "translate",
+        "parameters": {
+          "shape_id": "feat-0005",
+          "offset": [
+            0.0,
+            40.0,
+            20.0
+          ]
+        },
+        "typed_parameters": {},
+        "parameter_bindings": [],
+        "sketch_id": null,
+        "parent_id": "feat-0005",
+        "tool_refs": [],
+        "depends_on": [
+          "feat-0005"
+        ],
+        "shape_id": "93756743-c594-4a6d-bf52-2895e88abe52",
+        "status": "built",
+        "suppressed": false,
+        "mate_id": null,
+        "is_assembly_mate": false
+      },
+      "feat-0007": {
+        "id": "feat-0007",
+        "name": "Door opening",
+        "operation": "boolean_cut",
+        "parameters": {
+          "shape_a_id": "feat-0004",
+          "shape_b_id": "feat-0006"
+        },
+        "typed_parameters": {},
+        "parameter_bindings": [],
+        "sketch_id": null,
+        "parent_id": "feat-0004",
+        "tool_refs": [
+          "feat-0006"
+        ],
+        "depends_on": [
+          "feat-0004",
+          "feat-0006"
+        ],
+        "shape_id": "9739c076-0ba5-4556-b5ae-be1f937e919f",
+        "status": "built",
+        "suppressed": false,
+        "mate_id": null,
+        "is_assembly_mate": false
+      },
+      "feat-0008": {
+        "id": "feat-0008",
+        "name": "Window blank left",
+        "operation": "create_box",
+        "parameters": {
+          "length": 18.0,
+          "width": 30.0,
+          "height": 18.0
+        },
+        "typed_parameters": {},
+        "parameter_bindings": [],
+        "sketch_id": null,
+        "parent_id": null,
+        "tool_refs": [],
+        "depends_on": [],
+        "shape_id": "2b17636f-9921-433c-9ecb-44d8be2d69f3",
+        "status": "built",
+        "suppressed": false,
+        "mate_id": null,
+        "is_assembly_mate": false
+      },
+      "feat-0009": {
+        "id": "feat-0009",
+        "name": "Place window left",
+        "operation": "translate",
+        "parameters": {
+          "shape_id": "feat-0008",
+          "offset": [
+            -28.0,
+            40.0,
+            38.0
+          ]
+        },
+        "typed_parameters": {},
+        "parameter_bindings": [],
+        "sketch_id": null,
+        "parent_id": "feat-0008",
+        "tool_refs": [],
+        "depends_on": [
+          "feat-0008"
+        ],
+        "shape_id": "677a8076-701d-4a75-8bc4-4fca3a4afc1a",
+        "status": "built",
+        "suppressed": false,
+        "mate_id": null,
+        "is_assembly_mate": false
+      },
+      "feat-0010": {
+        "id": "feat-0010",
+        "name": "Window opening left",
+        "operation": "boolean_cut",
+        "parameters": {
+          "shape_a_id": "feat-0007",
+          "shape_b_id": "feat-0009"
+        },
+        "typed_parameters": {},
+        "parameter_bindings": [],
+        "sketch_id": null,
+        "parent_id": "feat-0007",
+        "tool_refs": [
+          "feat-0009"
+        ],
+        "depends_on": [
+          "feat-0007",
+          "feat-0009"
+        ],
+        "shape_id": "c5ca613b-7b25-4dd8-b479-cd595a6937d5",
+        "status": "built",
+        "suppressed": false,
+        "mate_id": null,
+        "is_assembly_mate": false
+      },
+      "feat-0011": {
+        "id": "feat-0011",
+        "name": "Window blank right",
+        "operation": "create_box",
+        "parameters": {
+          "length": 18.0,
+          "width": 30.0,
+          "height": 18.0
+        },
+        "typed_parameters": {},
+        "parameter_bindings": [],
+        "sketch_id": null,
+        "parent_id": null,
+        "tool_refs": [],
+        "depends_on": [],
+        "shape_id": "2c38ca2a-dbe9-4d3a-ade4-acb5fd62e91e",
+        "status": "built",
+        "suppressed": false,
+        "mate_id": null,
+        "is_assembly_mate": false
+      },
+      "feat-0012": {
+        "id": "feat-0012",
+        "name": "Place window right",
+        "operation": "translate",
+        "parameters": {
+          "shape_id": "feat-0011",
+          "offset": [
+            28.0,
+            40.0,
+            38.0
+          ]
+        },
+        "typed_parameters": {},
+        "parameter_bindings": [],
+        "sketch_id": null,
+        "parent_id": "feat-0011",
+        "tool_refs": [],
+        "depends_on": [
+          "feat-0011"
+        ],
+        "shape_id": "eb2d55e8-3149-4bb2-a086-2811f53f8ab8",
+        "status": "built",
+        "suppressed": false,
+        "mate_id": null,
+        "is_assembly_mate": false
+      },
+      "feat-0013": {
+        "id": "feat-0013",
+        "name": "Window opening right",
+        "operation": "boolean_cut",
+        "parameters": {
+          "shape_a_id": "feat-0010",
+          "shape_b_id": "feat-0012"
+        },
+        "typed_parameters": {},
+        "parameter_bindings": [],
+        "sketch_id": null,
+        "parent_id": "feat-0010",
+        "tool_refs": [
+          "feat-0012"
+        ],
+        "depends_on": [
+          "feat-0010",
+          "feat-0012"
+        ],
+        "shape_id": "ad6c8777-b595-4aad-ac1c-d98567728e8f",
+        "status": "built",
+        "suppressed": false,
+        "mate_id": null,
+        "is_assembly_mate": false
+      },
+      "feat-0014": {
+        "id": "feat-0014",
+        "name": "Chimney blank",
+        "operation": "create_box",
+        "parameters": {
+          "length": 12.0,
+          "width": 12.0,
+          "height": 28.0
+        },
+        "typed_parameters": {},
+        "parameter_bindings": [],
+        "sketch_id": null,
+        "parent_id": null,
+        "tool_refs": [],
+        "depends_on": [],
+        "shape_id": "2b6c9e96-3752-474e-8744-caf6fcb0fd00",
+        "status": "built",
+        "suppressed": false,
+        "mate_id": null,
+        "is_assembly_mate": false
+      },
+      "feat-0015": {
+        "id": "feat-0015",
+        "name": "Place chimney",
+        "operation": "translate",
+        "parameters": {
+          "shape_id": "feat-0014",
+          "offset": [
+            28.0,
+            -12.0,
+            84.0
+          ]
+        },
+        "typed_parameters": {},
+        "parameter_bindings": [],
+        "sketch_id": null,
+        "parent_id": "feat-0014",
+        "tool_refs": [],
+        "depends_on": [
+          "feat-0014"
+        ],
+        "shape_id": "5d475fbc-06cf-4939-bd54-c182b4a5f76e",
+        "status": "built",
+        "suppressed": false,
+        "mate_id": null,
+        "is_assembly_mate": false
+      },
+      "feat-0016": {
+        "id": "feat-0016",
+        "name": "Attach chimney",
+        "operation": "boolean_union",
+        "parameters": {
+          "shape_a_id": "feat-0013",
+          "shape_b_id": "feat-0015"
+        },
+        "typed_parameters": {},
+        "parameter_bindings": [],
+        "sketch_id": null,
+        "parent_id": "feat-0013",
+        "tool_refs": [
+          "feat-0015"
+        ],
+        "depends_on": [
+          "feat-0013",
+          "feat-0015"
+        ],
+        "shape_id": "66cc3640-b53c-4206-946a-4d15d9e1cd19",
+        "status": "built",
+        "suppressed": false,
+        "mate_id": null,
+        "is_assembly_mate": false
+      }
+    }
+  },
+  "solver_cache": {},
+  "revision": 18
+}

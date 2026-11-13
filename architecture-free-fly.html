@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>architecture free-fly</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #061018;
+      cursor: crosshair;
+    }
+    canvas { display: block; width: 100%; height: 100%; }
+    #gate {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 42%, #0f2a38 0%, transparent 58%),
+        linear-gradient(165deg, #040a10 0%, #0a1822 45%, #061018 100%);
+      transition: opacity 0.55s ease, visibility 0.55s;
+    }
+    #gate.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="gate"></div>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.170.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module">
+import * as THREE from "three";
+import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
+
+const gate = document.getElementById("gate");
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x061018);
+scene.fog = new THREE.FogExp2(0x061018, 0.012);
+
+const camera = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, 0.1, 400);
+camera.position.set(0, 28, 42);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+
+const controls = new PointerLockControls(camera, document.body);
+gate.addEventListener("click", () => controls.lock());
+controls.addEventListener("lock", () => gate.classList.add("hide"));
+controls.addEventListener("unlock", () => gate.classList.remove("hide"));
+
+scene.add(new THREE.AmbientLight(0x6a8a9a, 0.55));
+const key = new THREE.DirectionalLight(0xd8efe8, 1.1);
+key.position.set(20, 50, 30);
+scene.add(key);
+const fill = new THREE.DirectionalLight(0x3ecfbf, 0.35);
+fill.position.set(-25, 10, -20);
+scene.add(fill);
+const rim = new THREE.PointLight(0xe8a45a, 40, 80, 2);
+rim.position.set(0, -8, 0);
+scene.add(rim);
+
+const layers = [
+  { y: 27, color: 0x3ecfbf, count: 4 },  // Experience
+  { y: 18, color: 0x4eb8d9, count: 4 },  // Intelligence
+  { y: 9,  color: 0x6a9fd8, count: 4 },  // Orchestration
+  { y: 0,  color: 0x8b8fd0, count: 5 },  // Domain
+  { y: -9, color: 0xb89a6a, count: 5 },  // Shared Services
+  { y: -18, color: 0xd48a4a, count: 6 }, // Data & Ontology
+  { y: -27, color: 0xc45a4a, count: 4 }, // Infrastructure
+];
+
+// L6 node indices: Ontology=0, Databases=1, KG=2, Assets=3, Audit=4, Namespace=5
+const NS_INDEX = 5;
+const ONT_INDEX = 0;
+const ADDRESS_LAYERS = [0, 1, 2, 3]; // Experience → Domain (first node each)
+
+const root = new THREE.Group();
+scene.add(root);
+
+const nodeWorld = [];
+
+function ringPositions(count, radius) {
+  const pts = [];
+  for (let i = 0; i < count; i++) {
+    const a = (i / count) * Math.PI * 2 - Math.PI / 2;
+    pts.push(new THREE.Vector3(Math.cos(a) * radius, 0, Math.sin(a) * radius));
+  }
+  return pts;
+}
+
+function createLayer(layer, layerIndex) {
+  const g = new THREE.Group();
+  g.position.y = layer.y;
+
+  const disc = new THREE.Mesh(
+    new THREE.RingGeometry(4.2, 16.5, 96),
+    new THREE.MeshBasicMaterial({
+      color: layer.color,
+      transparent: true,
+      opacity: 0.07,
+      side: THREE.DoubleSide,
+      depthWrite: false,
+    })
+  );
+  disc.rotation.x = -Math.PI / 2;
+  g.add(disc);
+
+  const edge = new THREE.Mesh(
+    new THREE.TorusGeometry(16.5, 0.045, 8, 128),
+    new THREE.MeshBasicMaterial({ color: layer.color, transparent: true, opacity: 0.55 })
+  );
+  edge.rotation.x = Math.PI / 2;
+  g.add(edge);
+
+  // Layer index mark: N small ticks around inner ring (geometry-only identity)
+  const tickR = 5.1;
+  for (let i = 0; i < layerIndex + 1; i++) {
+    const a = (i / 7) * Math.PI * 2 - Math.PI / 2;
+    const tick = new THREE.Mesh(
+      new THREE.BoxGeometry(0.12, 0.12, 0.55),
+      new THREE.MeshBasicMaterial({ color: layer.color, transparent: true, opacity: 0.8 })
+    );
+    tick.position.set(Math.cos(a) * tickR, 0.05, Math.sin(a) * tickR);
+    tick.lookAt(0, 0.05, 0);
+    g.add(tick);
+  }
+
+  const positions = ringPositions(layer.count, 11.2);
+  const worlds = [];
+  positions.forEach((p) => {
+    const node = new THREE.Group();
+    node.position.copy(p);
+
+    const core = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(0.55, 1),
+      new THREE.MeshStandardMaterial({
+        color: layer.color,
+        emissive: layer.color,
+        emissiveIntensity: 0.35,
+        roughness: 0.35,
+        metalness: 0.45,
+      })
+    );
+    node.add(core);
+
+    const halo = new THREE.Mesh(
+      new THREE.SphereGeometry(0.85, 24, 24),
+      new THREE.MeshBasicMaterial({
+        color: layer.color,
+        transparent: true,
+        opacity: 0.12,
+        depthWrite: false,
+      })
+    );
+    node.add(halo);
+
+    g.add(node);
+    worlds.push(node);
+  });
+
+  root.add(g);
+  nodeWorld[layerIndex] = worlds;
+}
+
+layers.forEach(createLayer);
+
+// HUMAN apex
+const human = new THREE.Group();
+human.position.set(0, 36, 0);
+const humanCore = new THREE.Mesh(
+  new THREE.OctahedronGeometry(1.15, 0),
+  new THREE.MeshStandardMaterial({
+    color: 0xe8efe8,
+    emissive: 0x3ecfbf,
+    emissiveIntensity: 0.5,
+    roughness: 0.25,
+    metalness: 0.6,
+  })
+);
+human.add(humanCore);
+const humanHalo = new THREE.Mesh(
+  new THREE.TorusGeometry(2.2, 0.05, 8, 64),
+  new THREE.MeshBasicMaterial({ color: 0x3ecfbf, transparent: true, opacity: 0.7 })
+);
+humanHalo.rotation.x = Math.PI / 2;
+human.add(humanHalo);
+const humanHalo2 = humanHalo.clone();
+humanHalo2.scale.setScalar(1.35);
+humanHalo2.material = humanHalo.material.clone();
+humanHalo2.material.opacity = 0.35;
+human.add(humanHalo2);
+root.add(human);
+
+function connectVertical(fromY, toY, color) {
+  const tube = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.06, 0.06, Math.abs(fromY - toY), 8),
+    new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.2 })
+  );
+  tube.position.y = (fromY + toY) / 2;
+  root.add(tube);
+
+  const geo = new THREE.BufferGeometry().setFromPoints([
+    new THREE.Vector3(0, fromY, 0),
+    new THREE.Vector3(0, toY, 0),
+  ]);
+  root.add(
+    new THREE.Line(geo, new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.4 }))
+  );
+}
+
+connectVertical(36, 27, 0x3ecfbf);
+for (let i = 0; i < layers.length - 1; i++) {
+  connectVertical(layers[i].y, layers[i + 1].y, layers[i].color);
+}
+
+function dashedLink(a, b, color, dash = 0.4, gap = 0.28) {
+  const dir = new THREE.Vector3().subVectors(b, a);
+  const len = dir.length();
+  dir.normalize();
+  const points = [];
+  let t = 0;
+  let draw = true;
+  while (t < len) {
+    const seg = draw ? dash : gap;
+    const next = Math.min(t + seg, len);
+    if (draw) {
+      points.push(a.clone().addScaledVector(dir, t), a.clone().addScaledVector(dir, next));
+    }
+    t = next;
+    draw = !draw;
+  }
+  const geo = new THREE.BufferGeometry().setFromPoints(points);
+  return new THREE.LineSegments(
+    geo,
+    new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.55 })
+  );
+}
+
+function localPoint(layerIndex, nodeIndex) {
+  const node = nodeWorld[layerIndex][nodeIndex];
+  return new THREE.Vector3(node.position.x, layers[layerIndex].y, node.position.z);
+}
+
+{
+  const ns = localPoint(5, NS_INDEX);
+  const ont = localPoint(5, ONT_INDEX);
+  ADDRESS_LAYERS.forEach((li) => {
+    root.add(dashedLink(ns.clone(), localPoint(li, 0), 0x3ecfbf));
+  });
+  root.add(dashedLink(ont, ns, 0xe8a45a, 0.3, 0.22));
+}
+
+// Emphasize Namespace + Ontology with distinct geometry
+{
+  const nsNode = nodeWorld[5][NS_INDEX];
+  const ontNode = nodeWorld[5][ONT_INDEX];
+  nsNode.children[0].geometry = new THREE.DodecahedronGeometry(0.7, 0);
+  ontNode.children[0].geometry = new THREE.TetrahedronGeometry(0.85, 0);
+  const nsRing = new THREE.Mesh(
+    new THREE.TorusGeometry(1.35, 0.04, 8, 48),
+    new THREE.MeshBasicMaterial({ color: 0x3ecfbf, transparent: true, opacity: 0.85 })
+  );
+  nsRing.rotation.x = Math.PI / 2;
+  nsNode.add(nsRing);
+  const ontRing = new THREE.Mesh(
+    new THREE.TorusGeometry(1.35, 0.04, 8, 48),
+    new THREE.MeshBasicMaterial({ color: 0xe8a45a, transparent: true, opacity: 0.85 })
+  );
+  ontRing.rotation.x = Math.PI / 2;
+  ontNode.add(ontRing);
+}
+
+const dustCount = 900;
+const dustGeo = new THREE.BufferGeometry();
+const dustPos = new Float32Array(dustCount * 3);
+for (let i = 0; i < dustCount; i++) {
+  dustPos[i * 3] = (Math.random() - 0.5) * 90;
+  dustPos[i * 3 + 1] = (Math.random() - 0.5) * 90;
+  dustPos[i * 3 + 2] = (Math.random() - 0.5) * 90;
+}
+dustGeo.setAttribute("position", new THREE.BufferAttribute(dustPos, 3));
+const dust = new THREE.Points(
+  dustGeo,
+  new THREE.PointsMaterial({
+    color: 0x6ab0a8,
+    size: 0.08,
+    transparent: true,
+    opacity: 0.45,
+    depthWrite: false,
+  })
+);
+scene.add(dust);
+
+const pulse = new THREE.Mesh(
+  new THREE.SphereGeometry(0.22, 12, 12),
+  new THREE.MeshBasicMaterial({ color: 0x3ecfbf, transparent: true, opacity: 0.9 })
+);
+root.add(pulse);
+
+const velocity = new THREE.Vector3();
+const direction = new THREE.Vector3();
+const keys = { w: false, a: false, s: false, d: false, q: false, e: false, shift: false };
+
+addEventListener("keydown", (e) => {
+  const k = e.key.toLowerCase();
+  if (k in keys) keys[k] = true;
+  if (e.key === "Shift") keys.shift = true;
+});
+addEventListener("keyup", (e) => {
+  const k = e.key.toLowerCase();
+  if (k in keys) keys[k] = false;
+  if (e.key === "Shift") keys.shift = false;
+});
+
+addEventListener("resize", () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+const clock = new THREE.Clock();
+let stackSpin = 0;
+
+function animate() {
+  requestAnimationFrame(animate);
+  const dt = Math.min(clock.getDelta(), 0.05);
+  const t = clock.elapsedTime;
+
+  humanCore.rotation.y = t * 0.45;
+  humanHalo.rotation.z = t * 0.25;
+  humanHalo2.rotation.z = -t * 0.18;
+
+  stackSpin += dt * 0.05;
+  root.rotation.y = Math.sin(stackSpin) * 0.08;
+
+  const span = 36 - (-27);
+  pulse.position.set(0, ((t * 4) % span) - 27, 0);
+  pulse.material.opacity = 0.75 + Math.sin(t * 6) * 0.2;
+
+  if (dust) dust.rotation.y = t * 0.02;
+
+  if (controls.isLocked) {
+    const speed = (keys.shift ? 28 : 14) * dt;
+    direction.set(0, 0, 0);
+    if (keys.w) direction.z -= 1;
+    if (keys.s) direction.z += 1;
+    if (keys.a) direction.x -= 1;
+    if (keys.d) direction.x += 1;
+    if (keys.q) direction.y -= 1;
+    if (keys.e) direction.y += 1;
+    if (direction.lengthSq() > 0) direction.normalize();
+
+    velocity.x -= velocity.x * 8 * dt;
+    velocity.z -= velocity.z * 8 * dt;
+    velocity.y -= velocity.y * 8 * dt;
+
+    const forward = new THREE.Vector3();
+    camera.getWorldDirection(forward);
+    forward.y = 0;
+    forward.normalize();
+    const right = new THREE.Vector3().crossVectors(forward, camera.up).normalize();
+
+    velocity.addScaledVector(forward, -direction.z * speed * 12);
+    velocity.addScaledVector(right, direction.x * speed * 12);
+    velocity.y += direction.y * speed * 12;
+
+    controls.moveRight(-velocity.x * dt);
+    controls.moveForward(-velocity.z * dt);
+    camera.position.y += velocity.y * dt;
+    camera.position.y = THREE.MathUtils.clamp(camera.position.y, -40, 50);
+  } else {
+    const orbit = t * 0.12;
+    camera.position.x = Math.sin(orbit) * 42;
+    camera.position.z = Math.cos(orbit) * 42;
+    camera.position.y = 12 + Math.sin(t * 0.35) * 6;
+    camera.lookAt(0, 4, 0);
+  }
+
+  renderer.render(scene, camera);
+}
+
+animate();
+  </script>
+</body>
+</html>
